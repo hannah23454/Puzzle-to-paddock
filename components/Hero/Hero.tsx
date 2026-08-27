@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Users, Heart, Stethoscope } from "lucide-react";
+import { Header } from "../navigation/Header";
 
 const audiencePaths = [
   {
@@ -22,7 +23,7 @@ const audiencePaths = [
     label: "NDIS & Allied Health",
     sublabel: "Support & referrals",
     icon: Stethoscope,
-    bg: "bg-[#be123c]",
+    bg: "bg-[#f5babb]",
   },
 ];
 
@@ -77,24 +78,20 @@ export const Hero = () => {
 
         @media (max-width: 768px) {
           .hero-section {
-            min-height: 65vh;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .hero-section {
-            min-height: 55vh;
+            min-height: auto;
           }
         }
       `}</style>
 
       <section
-        className="hero-section relative w-full min-h-[90vh] lg:min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
+        className="hero-section relative w-full min-h-[90vh] lg:min-h-screen bg-[url('/images/mobhero.webp')] md:bg-[url('/images/pexels-6219955.jpg')] bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(rgba(6, 67, 50, 0.52), rgba(6, 67, 50, 0.62)), url('/images/pexels-6219955.jpg')`,
-          backgroundColor: "#568f87",
+          backgroundColor: "#1f2937",
         }}
       >
+        {/* Darkening overlay for text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 to-black/35" />
+
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-emerald-200/40 to-teal-200/40 rounded-full blur-3xl animate-pulse" />
@@ -103,7 +100,12 @@ export const Hero = () => {
           <div className="absolute bottom-1/3 left-1/4 w-56 h-56 bg-gradient-to-r from-yellow-200/30 to-orange-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1.5s" }} />
         </div>
 
-        <div className="relative z-10 px-4 sm:px-6 lg:px-8 xl:px-10 pt-12 sm:pt-16 lg:pt-20 pb-8 sm:pb-12 lg:pb-16">
+        {/* Header - embedded in hero, width-aligned with hero content */}
+        <div className="relative z-20">
+          <Header />
+        </div>
+
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 xl:px-10 pt-6 sm:pt-8 lg:pt-10 pb-8 sm:pb-12 lg:pb-16">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[40vh] sm:min-h-[50vh] lg:min-h-[70vh]">
               
@@ -124,7 +126,6 @@ export const Hero = () => {
                       </span>
                       <h1
                         className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl leading-tight font-['Poppins'] mb-4 sm:mb-6 text-white"
-                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.95), 0 2px 8px rgba(0,0,0,0.85), 0 8px 24px rgba(0,0,0,0.6)" }}
                       >
                         <span className="animate-fade-in-up block" style={{ animationDelay: "0.2s" }}>
                           Care, Matched
@@ -142,7 +143,7 @@ export const Hero = () => {
                 <div className="space-y-4 sm:space-y-6 animate-fade-in-up" style={{ animationDelay: "1s" }}>
                   <div className="relative p-5 sm:p-6 lg:p-6 bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
                     <p className="relative z-10 font-normal text-slate-700 text-base sm:text-lg lg:text-xl leading-relaxed font-['Poppins']">
-                      Puzzle to Paddock connects Australian families with <span className="font-bold text-[#064232]">nannies and au pairs</span>, and with <span className="font-bold text-rose-700">NDIS-registered allied health professionals</span> — tell us who you are to get started.
+                      Puzzle to Paddock connects Australian families with <span className="font-bold text-[#064232]">nannies and au pairs</span>, and with <span className="font-bold text-[#f5babb]">NDIS-registered allied health professionals</span> — tell us who you are to get started.
                     </p>
                   </div>
                 </div>

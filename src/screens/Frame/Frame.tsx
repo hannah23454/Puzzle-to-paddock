@@ -2,7 +2,6 @@ import { AboutUsSection } from "./sections/AboutUsSection/AboutUsSection"
 import { DiscussionSection } from "./sections/DiscussionSection/DiscussionSection"
 import { FeaturesSection } from "./sections/FeaturesSection/FeaturesSection"
 import { TestimonialsSection } from "./sections/TestimonialsSection/TestimonialsSection"
-import { Header } from "../../../components/navigation/Header"
 import { Hero } from "@/components/Hero/Hero"
 import { Footer } from "@/components/Footer/Footer"
 import type { JSX } from "react"
@@ -11,7 +10,6 @@ export const Frame = (): JSX.Element => {
   return (
     <div className="bg-white w-full min-h-screen">
       <div className="w-full">
-        <Header />
         <Hero/>
         
         {/* Main Content Sections with Consistent Spacing */}
