@@ -1,8 +1,123 @@
 "use client";
 
 import React from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Heart, Users, Stethoscope, Shield, Briefcase, MapPin, GraduationCap, Calendar } from "lucide-react";
 import Link from "next/link";
+import { DropdownNavigation, type NavItem } from "../ui/dropdown-navigation";
+
+const desktopNavItems: NavItem[] = [
+  { id: 1, label: "Home", href: "/" },
+  {
+    id: 2,
+    label: "Family Services",
+    href: "/families",
+    subMenus: [
+      {
+        title: "Family Services",
+        items: [
+          {
+            label: "Au Pair Placement",
+            description: "Live-in childcare and cultural exchange",
+            href: "/families/au-pair",
+            icon: Heart,
+          },
+          {
+            label: "Professional Nanny Services",
+            description: "Qualified, background-checked nannies",
+            href: "/families/nanny",
+            icon: Users,
+          },
+          {
+            label: "NDIS Support Services",
+            description: "Allied health support for your family",
+            href: "/families/ndis",
+            icon: Stethoscope,
+          },
+          {
+            label: "Emergency Care",
+            description: "Last-minute, backup childcare",
+            href: "/families/emergency",
+            icon: Shield,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 3,
+    label: "For Nannies",
+    href: "/nannies",
+    subMenus: [
+      {
+        title: "For Nannies",
+        items: [
+          {
+            label: "Job Opportunities",
+            description: "Browse placements with Australian families",
+            href: "/jobs",
+            icon: Briefcase,
+          },
+          {
+            label: "Visa Support",
+            description: "Guidance on visas and migration pathways",
+            href: "/nannies/visa",
+            icon: MapPin,
+          },
+          {
+            label: "Training Programs",
+            description: "Professional development and certifications",
+            href: "/nannies/training",
+            icon: GraduationCap,
+          },
+          {
+            label: "Rural Placements",
+            description: "Opportunities across regional Australia",
+            href: "/nannies/rural",
+            icon: MapPin,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    label: "NDIS Services",
+    href: "/ndis",
+    subMenus: [
+      {
+        title: "NDIS Services",
+        items: [
+          {
+            label: "Neurodivergence Support",
+            description: "Specialised support for neurodivergent children",
+            href: "/ndis/children",
+            icon: Users,
+          },
+          {
+            label: "Allied Health Professionals",
+            description: "Connect with NDIS-registered professionals",
+            href: "/ndis/professionals",
+            icon: Briefcase,
+          },
+          {
+            label: "Telehealth",
+            description: "Remote therapy sessions and consultations",
+            href: "/ndis/telehealth",
+            icon: Calendar,
+          },
+          {
+            label: "Compliance & Registration",
+            description: "NDIS registration and worker screening",
+            href: "/ndis/compliance",
+            icon: Shield,
+          },
+        ],
+      },
+    ],
+  },
+  { id: 5, label: "Register Now", href: "/register" },
+  { id: 6, label: "Contact", href: "/contact" },
+];
 
 const navigationItems = [
   { label: "Home", href: "/" },
@@ -50,7 +165,6 @@ const navigationItems = [
 
 const Header = (): React.JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null);
   const [activeMobileDropdown, setActiveMobileDropdown] = React.useState<string | null>(null);
 
   return (
@@ -73,54 +187,8 @@ const Header = (): React.JSX.Element => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-3 xl:gap-4">
-          {navigationItems.map((item, index) => (
-            <div
-              key={index}
-              className="relative"
-              onMouseEnter={() => setActiveDropdown(item.label)}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              {item.dropdown ? (
-                <>
-                  <div className="flex items-center gap-1 cursor-pointer">
-                    <Link
-                      href={item.href}
-                      className="font-normal text-[#252641] text-xs xl:text-sm tracking-wide hover:text-[#064232] transition-colors font-['Poppins']"
-                    >
-                      {item.label}
-                    </Link>
-                    <ChevronDown
-                      size={12}
-                      className="text-[#252641] transition-colors group-hover:text-[#064232]"
-                    />
-                  </div>
-
-                  {/* Dropdown Menu */}
-                  {activeDropdown === item.label && (
-                    <div className="absolute top-full left-0 mt-1 w-48 bg-white/95 backdrop-blur-sm rounded-md shadow-md border border-gray-200 py-2 z-50">
-                      {item.dropdown.map((dropdownItem, dropdownIndex) => (
-                        <Link
-                          key={dropdownIndex}
-                          href={dropdownItem.href}
-                          className="block px-3 py-1.5 text-xs text-[#252641] hover:text-[#064232] hover:bg-gray-50 transition-colors font-['Poppins']"
-                        >
-                          {dropdownItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="font-normal text-[#252641] text-xs xl:text-sm tracking-wide hover:text-[#064232] transition-colors font-['Poppins']"
-                >
-                  {item.label}
-                </Link>
-              )}
-            </div>
-          ))}
+        <div className="hidden lg:flex items-center">
+          <DropdownNavigation navItems={desktopNavItems} />
         </div>
 
         {/* Mobile Menu Button */}
