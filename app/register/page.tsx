@@ -24,6 +24,8 @@ export default function RegisterPage() {
     experience: "",
     message: "",
   })
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const registrationTypes = [
     {
@@ -49,11 +51,37 @@ export default function RegisterPage() {
     },
   ]
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Integration with Jotform/Airtable would happen here
-    console.log("Form submitted:", { type: selectedType, ...formData })
-    // Redirect to thank you page or show success message
+    setStatus("submitting")
+    setErrorMessage("")
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: selectedType, ...formData }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        throw new Error(data.error || "Something went wrong. Please try again.")
+      }
+
+      setStatus("success")
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        location: "",
+        experience: "",
+        message: "",
+      })
+    } catch (error) {
+      setStatus("error")
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.")
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -127,6 +155,20 @@ export default function RegisterPage() {
                   <h3 className="font-semibold text-2xl mb-6 font-['Poppins'] text-[#064232]">
                     {registrationTypes.find((t) => t.id === selectedType)?.title} Form
                   </h3>
+                  {status === "success" ? (
+                    <div className="text-center py-8">
+                      <h4 className="font-semibold text-xl mb-2 font-['Poppins'] text-[#064232]">
+                        Thanks — we've got your registration!
+                      </h4>
+                      <p className="text-[#696983] font-['Poppins']">
+                        Our team will be in touch shortly. In the meantime, feel free to{" "}
+                        <Link href="/contact" className="text-[#064232] underline">
+                          book a call
+                        </Link>
+                        .
+                      </p>
+                    </div>
+                  ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
@@ -253,12 +295,19 @@ export default function RegisterPage() {
                       />
                     </div>
 
+                    {status === "error" && (
+                      <p className="text-red-600 text-sm font-['Poppins']" role="alert">
+                        {errorMessage}
+                      </p>
+                    )}
+
                     <div className="flex flex-col sm:flex-row gap-4">
                       <Button
                         type="submit"
-                        className="flex-1 bg-[#064232] hover:bg-[#064232]/90 text-white rounded-full py-3 text-lg font-semibold font-['Poppins']"
+                        disabled={status === "submitting"}
+                        className="flex-1 bg-[#064232] hover:bg-[#064232]/90 text-white rounded-full py-3 text-lg font-semibold font-['Poppins'] disabled:opacity-60"
                       >
-                        Submit Registration
+                        {status === "submitting" ? "Submitting..." : "Submit Registration"}
                       </Button>
                       <Button
                         type="button"
@@ -270,6 +319,7 @@ export default function RegisterPage() {
                       </Button>
                     </div>
                   </form>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -300,7 +350,7 @@ export default function RegisterPage() {
                 className="h-auto p-6 border-[#568f87] text-[#568f87] hover:bg-[#568f87] hover:text-white rounded-2xl font-['Poppins'] bg-transparent"
                 asChild
               >
-                <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/61300979054" target="_blank" rel="noopener noreferrer">
                   <div>
                     <h3 className="font-semibold text-lg mb-2">WhatsApp Chat</h3>
                     <p className="text-sm opacity-80">Quick questions</p>

@@ -1,9 +1,16 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../components/layout/FloatingCTA"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import Link from "next/link"
 import { Header } from "../../components/navigation/Header"
 import { Footer } from "../../components/Footer/Footer"
+
+export const metadata: Metadata = {
+  title: "NDIS Services | Puzzle to Paddock",
+  description:
+    "NDIS-registered allied health and support services for children and participants — connecting families with qualified professionals across Australia.",
+}
 
 export default function NDISPage() {
   const ndisServices = [
@@ -12,7 +19,7 @@ export default function NDISPage() {
       description:
         "Specialized support services for children with autism, ADHD, and other neurodevelopmental conditions.",
       image:
-        "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-8613089.jpg",
       href: "/ndis/children",
       services: ["Behavioral support", "Speech therapy", "Occupational therapy", "Social skills development"],
     },
@@ -20,7 +27,7 @@ export default function NDISPage() {
       title: "Allied Health Professionals",
       description: "Connect with qualified therapists and specialists registered with NDIS for comprehensive care.",
       image:
-        "https://images.pexels.com/photos/4473775/pexels-photo-4473775.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-4473775.jpg",
       href: "/ndis/professionals",
       services: ["NDIS registered", "Qualified professionals", "Flexible scheduling", "Home visits available"],
     },
@@ -28,7 +35,7 @@ export default function NDISPage() {
       title: "Telehealth Support",
       description: "Remote therapy sessions and consultations for families in rural areas or with mobility challenges.",
       image:
-        "https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-8613317.jpg",
       href: "/ndis/telehealth",
       services: ["Remote sessions", "Flexible timing", "Rural accessibility", "Technology support"],
     },
@@ -36,7 +43,7 @@ export default function NDISPage() {
       title: "Compliance & Registration",
       description: "Full NDIS compliance support and registration assistance for service providers and families.",
       image:
-        "https://images.pexels.com/photos/5063408/pexels-photo-5063408.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-5445219.jpg",
       href: "/ndis/compliance",
       services: ["NDIS registration", "Compliance support", "Documentation help", "Audit preparation"],
     },

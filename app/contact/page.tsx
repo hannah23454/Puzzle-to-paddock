@@ -20,11 +20,32 @@ export default function ContactPage() {
     subject: "",
     message: "",
   })
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Integration with Jotform/Airtable would happen here
-    console.log("Contact form submitted:", formData)
+    setStatus("submitting")
+    setErrorMessage("")
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        throw new Error(data.error || "Something went wrong. Please try again.")
+      }
+
+      setStatus("success")
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
+    } catch (error) {
+      setStatus("error")
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.")
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -47,7 +68,7 @@ export default function ContactPage() {
       icon: <MessageCircle className="w-6 h-6" />,
       title: "WhatsApp",
       description: "Quick chat for immediate help",
-      action: "https://wa.me/61234567890",
+      action: "https://wa.me/61300979054",
       actionText: "Start Chat",
       color: "bg-[#25D366]",
     },
@@ -63,7 +84,7 @@ export default function ContactPage() {
       icon: <Calendar className="w-6 h-6" />,
       title: "Book a Call",
       description: "Schedule a consultation",
-      action: "https://calendly.com/puzzletopaddock",
+      action: "https://calendly.com/clo-puzzletopaddock",
       actionText: "Schedule Now",
       color: "bg-[#f5babb]",
       textColor: "text-[#064232]",
@@ -137,6 +158,14 @@ export default function ContactPage() {
               <Card className="border-0 shadow-lg rounded-2xl">
                 <CardContent className="p-8">
                   <h3 className="font-semibold text-2xl mb-6 font-['Poppins'] text-[#064232]">Send us a Message</h3>
+                  {status === "success" ? (
+                    <div className="text-center py-8">
+                      <h4 className="font-semibold text-xl mb-2 font-['Poppins'] text-[#064232]">
+                        Message sent — thank you!
+                      </h4>
+                      <p className="text-[#696983] font-['Poppins']">We respond within 24 hours.</p>
+                    </div>
+                  ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                       <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
@@ -215,13 +244,21 @@ export default function ContactPage() {
                       />
                     </div>
 
+                    {status === "error" && (
+                      <p className="text-red-600 text-sm font-['Poppins']" role="alert">
+                        {errorMessage}
+                      </p>
+                    )}
+
                     <Button
                       type="submit"
-                      className="w-full bg-[#064232] hover:bg-[#568F87]/90 text-white rounded-full py-3 text-lg font-semibold font-['Poppins']"
+                      disabled={status === "submitting"}
+                      className="w-full bg-[#064232] hover:bg-[#568F87]/90 text-white rounded-full py-3 text-lg font-semibold font-['Poppins'] disabled:opacity-60"
                     >
-                      Send Message
+                      {status === "submitting" ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
+                  )}
                 </CardContent>
               </Card>
 
@@ -270,7 +307,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <h4 className="font-semibold text-lg font-['Poppins'] text-[#064232]">WhatsApp</h4>
-                          <p className="text-[#696983] font-['Poppins']">+61 2 3456 7890</p>
+                          <p className="text-[#696983] font-['Poppins']">+61 300 979 054</p>
                           <p className="text-sm text-[#696983] font-['Poppins']">Quick responses 9AM-5PM</p>
                         </div>
                       </div>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../components/layout/FloatingCTA"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
@@ -5,33 +6,39 @@ import Link from "next/link"
 import { Header } from "../../components/navigation/Header"
 import { Footer } from "../../components/Footer/Footer"
 
+export const metadata: Metadata = {
+  title: "Family Services | Puzzle to Paddock",
+  description:
+    "Au pair placement, nanny services, NDIS support and emergency care for Australian families — explore Puzzle to Paddock's family care services.",
+}
+
 export default function FamiliesPage() {
   const serviceCards = [
     {
       title: "Au Pair Placement",
       description: "Connect with experienced au pairs from around the world for live-in childcare and cultural exchange.",
-      image: "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613089.jpg",
       href: "/families/au-pair",
       features: ["Live-in care", "Cultural exchange", "Flexible hours", "Visa support"],
     },
     {
       title: "Professional Nanny Services",
       description: "Qualified nannies providing dedicated childcare in your home with professional training and background checks.",
-      image: "https://images.pexels.com/photos/4473775/pexels-photo-4473775.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-4473775.jpg",
       href: "/families/nanny",
       features: ["Background checked", "Professional training", "Flexible schedules", "Emergency backup"],
     },
     {
       title: "NDIS Support Services",
       description: "Specialized support for children with disabilities through qualified allied health professionals.",
-      image: "https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613317.jpg",
       href: "/families/ndis",
       features: ["NDIS registered", "Allied health professionals", "Telehealth options", "Personalized care plans"],
     },
     {
       title: "Emergency Care",
       description: "Last-minute childcare solutions when you need them most, available 24/7.",
-      image: "https://images.pexels.com/photos/5063408/pexels-photo-5063408.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-5445219.jpg",
       href: "/families/emergency",
       features: ["24/7 availability", "Vetted caregivers", "Same-day service"],
     },

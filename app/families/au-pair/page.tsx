@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../../components/layout/FloatingCTA"
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
@@ -5,13 +6,19 @@ import Link from "next/link"
 import { Header } from "../../../components/navigation/Header"
 import { Footer } from "../../../components/Footer/Footer"
 
+export const metadata: Metadata = {
+  title: "Au Pair Placement | Puzzle to Paddock",
+  description:
+    "Connect with experienced au pairs from around the world for live-in childcare and cultural exchange, with full visa and placement support.",
+}
+
 export default function AuPairPlacementPage() {
   const placementTypes = [
     {
       title: "Live-In Au Pair",
       duration: "6-12 months",
       description: "Full cultural exchange experience with dedicated room and board included.",
-      image: "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613089.jpg",
       features: [
         "25-45 hours per week",
         "Private bedroom & meals",
@@ -25,7 +32,7 @@ export default function AuPairPlacementPage() {
       title: "Part-Time Au Pair",
       duration: "3-6 months",
       description: "Flexible arrangement perfect for families needing occasional support.",
-      image: "https://images.pexels.com/photos/8613283/pexels-photo-8613283.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613089.jpg",
       features: [
         "15-25 hours per week",
         "Flexible scheduling",
@@ -39,7 +46,7 @@ export default function AuPairPlacementPage() {
       title: "Summer Au Pair",
       duration: "2-4 months",
       description: "Seasonal support during school holidays with adventure and learning.",
-      image: "https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613317.jpg",
       features: [
         "Summer holiday coverage",
         "Activity planning included",
@@ -146,7 +153,7 @@ export default function AuPairPlacementPage() {
               </div>
               <div className="relative">
                 <img
-                  src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  src="/images/pexels-8613089.jpg"
                   alt="Au pair with children"
                   className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
                 />
@@ -253,7 +260,7 @@ export default function AuPairPlacementPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <img
-                  src="https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  src="/images/pexels-8613317.jpg"
                   alt="NDIS integrated care"
                   className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
                 />

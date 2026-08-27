@@ -9,7 +9,7 @@ export const DiscussionSection = () => {
     {
       title: 'Call Us',
       icon: <Phone className="w-4 h-4" />,
-      action: 'tel:1300979054',
+      action: 'tel:+61234567890',
       color: 'bg-[#568f87]',
       hoverColor: 'hover:bg-[#4a7a72]'
     },
@@ -56,10 +56,7 @@ export const DiscussionSection = () => {
                 {/* Nanny Introduction Call */}
                 <Button
                   onClick={() =>
-                    window.open(
-                      "https://calendly.com/clo-puzzletopaddock/nanny-introduction-call?back=1&month=2025-09",
-                      "_blank"
-                    )
+                    window.open("https://calendly.com/clo-puzzletopaddock", "_blank")
                   }
                   className="bg-[#568f87] hover:bg-[#4a7a72] text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 font-['Poppins']"
                 >
@@ -70,10 +67,7 @@ export const DiscussionSection = () => {
                 {/* NDIS Carer or Family Consultation */}
                 <Button
                   onClick={() =>
-                    window.open(
-                      "https://calendly.com/clo-puzzletopaddock/ndis-carer-or-family?back=1&month=2025-09",
-                      "_blank"
-                    )
+                    window.open("https://calendly.com/clo-puzzletopaddock", "_blank")
                   }
                   className="bg-[#F5BABB] hover:bg-[#f0a7a9] text-[#568f87] px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 font-['Poppins']"
                 >
@@ -113,7 +107,7 @@ export const DiscussionSection = () => {
               <img
                 className="w-full h-auto max-w-full rounded-xl sm:rounded-2xl lg:rounded-[24px] object-cover shadow-lg"
                 alt="Professional consultation meeting between family and healthcare provider"
-                src="https://aaniie.com/wp-content/uploads/2024/11/Permanent-Nanny-Placements_-Finding-the-Perfect-Fit-for-Every-Family-768x529.jpg"
+                src="/images/pexels-4473775.jpg"
               />
             </div>
           </div>

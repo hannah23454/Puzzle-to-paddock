@@ -94,21 +94,6 @@
                       </button>
                     </div>
 
-                    {/* Stats or Features */}
-                    <div className="flex space-x-8 pt-2 animate-fade-in-up" style={{animationDelay: '1s'}}>
-                      <div className="text-center group">
-                        <div className="text-2xl font-bold text-emerald-600 group-hover:text-emerald-700 transition-colors">500+</div>
-                        <div className="text-sm text-slate-600 font-medium">Families Helped</div>
-                      </div>
-                      <div className="text-center group">
-                        <div className="text-2xl font-bold text-teal-600 group-hover:text-teal-700 transition-colors">200+</div>
-                        <div className="text-sm text-slate-600 font-medium">Professionals</div>
-                      </div>
-                      <div className="text-center group">
-                        <div className="text-2xl font-bold text-rose-500 group-hover:text-rose-600 transition-colors">98%</div>
-                        <div className="text-sm text-slate-600 font-medium">Satisfaction</div>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Right Content - Enhanced Image Section - Now shows second on mobile, second on desktop */}
@@ -128,7 +113,7 @@
                         <img
                           className="w-full h-auto aspect-[4/3] object-cover transform group-hover:scale-110 transition-all duration-700 ease-out rounded-2xl"
                           alt="A compassionate professional helping a child with educational toys"
-                          src="https://lady.co.uk/sites/default/files/styles/full_width_1160x652/public/Posters/istock-629353764.jpg?itok=wENlXgu4&c=69f3609e5a9f5a1d42722fb70f58fc70"
+                          src="/images/pexels-7296459.jpg"
                         />
                         {/* Image Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />

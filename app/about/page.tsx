@@ -1,18 +1,19 @@
 import React from "react";
+import type { Metadata } from "next";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
-import { Users, Heart, Shield, Star, Award, Clock } from "lucide-react";
+import { Users, Heart, Shield, Smile } from "lucide-react";
 import { Header } from "../../components/navigation/Header"
-import { Footer } from "../../components/Footer/Footer" 
+import { Footer } from "../../components/Footer/Footer"
 import Link from "next/link"
-const AboutPage = (): React.JSX.Element => {
-  const stats = [
-    { number: "500+", label: "Families Served", icon: <Users className="w-5 h-5" /> },
-    { number: "150+", label: "Trusted Professionals", icon: <Award className="w-5 h-5" /> },
-    { number: "98%", label: "Satisfaction Rate", icon: <Star className="w-5 h-5" /> },
-    { number: "24/7", label: "Support Available", icon: <Clock className="w-5 h-5" /> }
-  ];
 
+export const metadata: Metadata = {
+  title: "About Us | Puzzle to Paddock",
+  description:
+    "Learn about Puzzle to Paddock's mission, values, and approach to connecting Australian families with trusted nannies, au pairs, and NDIS support professionals.",
+}
+
+const AboutPage = (): React.JSX.Element => {
   const values = [
     {
       icon: <Heart className="w-8 h-8" />,
@@ -31,25 +32,13 @@ const AboutPage = (): React.JSX.Element => {
     }
   ];
 
+  // PLACEHOLDER — no real team photos yet. Gradient avatars below are an intentional
+  // "coming soon" placeholder, not a stand-in headshot — swap for real names, roles,
+  // headshots and bios before launch.
   const team = [
-    {
-      name: "Sarah Mitchell",
-      role: "Founder & CEO",
-      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      bio: "Former NDIS support coordinator with 15+ years experience in childcare and disability services."
-    },
-    {
-      name: "Dr. James Chen",
-      role: "Head of Clinical Services",
-      image: "https://images.pexels.com/photos/5327921/pexels-photo-5327921.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      bio: "Pediatric occupational therapist specializing in neurodevelopmental support and family-centered care."
-    },
-    {
-      name: "Emma Rodriguez",
-      role: "Family Support Manager",
-      image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop",
-      bio: "Experienced nanny and early childhood educator passionate about connecting families with quality care."
-    }
+    { role: "Founder & CEO", gradient: "from-[#568f87] to-[#064232]" },
+    { role: "Head of Clinical Services", gradient: "from-[#f5babb] to-[#e8949c]" },
+    { role: "Family Support Manager", gradient: "from-[#568f87] to-[#f5babb]" },
   ];
 
   return (
@@ -76,29 +65,6 @@ const AboutPage = (): React.JSX.Element => {
           </div>
         </section>
 
-
-      {/* Stats Section */}
-      <section className="w-full py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-            {stats.map((stat, index) => (
-              <Card key={index} className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="w-12 h-12 bg-[#568f87] rounded-lg flex items-center justify-center mx-auto mb-3 text-white">
-                    {stat.icon}
-                  </div>
-                  <div className="font-bold text-[#064232] text-xl sm:text-2xl lg:text-3xl font-['Poppins'] mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-[#696983] text-sm lg:text-base font-['Poppins']">
-                    {stat.label}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Our Story Section */}
       <section className="w-full relative py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
@@ -138,8 +104,8 @@ const AboutPage = (): React.JSX.Element => {
               <div className="relative z-10">
                 <img
                   className="w-full h-auto rounded-xl lg:rounded-2xl object-cover shadow-lg"
-                  alt="Puzzle to Paddock team working together"
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  alt="A parent playing with her child, the kind of everyday moment Puzzle to Paddock was founded to protect"
+                  src="/images/pexels-8504291.jpg"
                 />
               </div>
             </div>
@@ -195,21 +161,14 @@ const AboutPage = (): React.JSX.Element => {
             {team.map((member, index) => (
               <Card key={index} className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6 text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center shadow-md`}>
+                    <Smile className="w-9 h-9 text-white" />
                   </div>
-                  <h3 className="font-bold text-[#064232] text-lg font-['Poppins'] mb-1">
-                    {member.name}
-                  </h3>
                   <p className="text-[#568f87] text-sm font-['Poppins'] mb-3">
                     {member.role}
                   </p>
                   <p className="text-[#696983] text-sm leading-relaxed font-['Poppins']">
-                    {member.bio}
+                    Photo &amp; bio coming soon
                   </p>
                 </CardContent>
               </Card>

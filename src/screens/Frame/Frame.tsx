@@ -1,7 +1,6 @@
 import { AboutUsSection } from "./sections/AboutUsSection/AboutUsSection"
 import { DiscussionSection } from "./sections/DiscussionSection/DiscussionSection"
 import { FeaturesSection } from "./sections/FeaturesSection/FeaturesSection"
-import { NewsletterSection } from "./sections/NewsletterSection/NewsletterSection"
 import { TestimonialsSection } from "./sections/TestimonialsSection/TestimonialsSection"
 import { Header } from "../../../components/navigation/Header"
 import { Hero } from "@/components/Hero/Hero"

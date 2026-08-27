@@ -1,9 +1,17 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../components/layout/FloatingCTA"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import Link from "next/link"
 import { Header } from "../../components/navigation/Header"
 import { Footer } from "../../components/Footer/Footer"
+
+export const metadata: Metadata = {
+  title: "For Nannies & Au Pairs | Puzzle to Paddock",
+  description:
+    "Join Puzzle to Paddock's network of nannies and au pairs — browse job opportunities, visa support, training programs and rural placements across Australia.",
+}
+
 export default function NanniesPage() {
   const opportunityCards = [
     {
@@ -11,8 +19,8 @@ export default function NanniesPage() {
       description:
         "Browse hundreds of family placements across Australia with competitive pay and flexible arrangements.",
       image:
-        "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
-      href: "/nannies/jobs",
+        "/images/pexels-8613089.jpg",
+      href: "/jobs",
       benefits: ["Competitive rates", "Flexible schedules", "Professional development", "Ongoing support"],
     },
     {
@@ -20,7 +28,7 @@ export default function NanniesPage() {
       description:
         "Complete assistance with visa applications, migration pathways, and legal requirements for international candidates.",
       image:
-        "https://images.pexels.com/photos/4473775/pexels-photo-4473775.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-4473775.jpg",
       href: "/nannies/visa",
       benefits: ["Visa guidance", "Legal support", "Document assistance", "Migration pathways"],
     },
@@ -29,7 +37,7 @@ export default function NanniesPage() {
       description:
         "Professional development courses, certifications, and ongoing education to advance your childcare career.",
       image:
-        "https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-8613317.jpg",
       href: "/nannies/training",
       benefits: ["Certified courses", "Skill development", "Career advancement", "Industry recognition"],
     },
@@ -38,7 +46,7 @@ export default function NanniesPage() {
       description:
         "Unique opportunities in rural Australia with additional benefits, cultural experiences, and community connections.",
       image:
-        "https://images.pexels.com/photos/5063408/pexels-photo-5063408.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+        "/images/pexels-5445219.jpg",
       href: "/nannies/rural",
       benefits: ["Rural bonuses", "Cultural immersion", "Community support", "Adventure opportunities"],
     },
@@ -72,7 +80,7 @@ export default function NanniesPage() {
                   className="border-[#064232] text-[#064232] hover:bg-[#064232] hover:text-white rounded-full px-8 py-4 text-lg font-semibold font-['Poppins'] bg-transparent"
                   asChild
                 >
-                  <Link href="/nannies/jobs">Browse Jobs</Link>
+                  <Link href="/jobs">Browse Jobs</Link>
                 </Button>
               </div>
             </div>

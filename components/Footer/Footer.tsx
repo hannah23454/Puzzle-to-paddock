@@ -1,17 +1,39 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Heart } from 'lucide-react';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubscribeStatus("submitting");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) throw new Error("Subscription failed");
+
+      setSubscribeStatus("success");
+      setEmail("");
+    } catch {
+      setSubscribeStatus("error");
+    }
+  };
 
   const contactInfo = [
     {
       icon: <Phone className="w-4 h-4" />,
       title: "Call Us",
-      content: "1300 979 054",
-      link: "tel:1300979054"
+      content: "+61 2 3456 7890",
+      link: "tel:+61234567890"
     },
     {
       icon: <Mail className="w-4 h-4" />,
@@ -28,9 +50,12 @@ export const Footer = () => {
   ];
 
   const quickLinks = [
+    { title: "Home", href: "/" },
     { title: "About Us", href: "/about" },
     { title: "For Families", href: "/families" },
-    { title: "For Professionals", href: "/professionals" },
+    { title: "For Nannies", href: "/nannies" },
+    { title: "Register Now", href: "/register" },
+    { title: "NDIS Services", href: "/ndis" },
     { title: "Contact", href: "/contact" }
   ];
 
@@ -133,32 +158,30 @@ export const Footer = () => {
               </p>
               
               {/* Email Input */}
-              <div className="space-y-3">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 text-sm focus:outline-none focus:border-[#F5BABB] transition-colors duration-300"
-                />
-                <button className="w-full bg-[#568f87] hover:bg-[#568f87] text-white py-2 rounded-lg font-medium text-sm transition-colors duration-300 font-['Poppins']">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-
-            {/* Quick CTA Buttons */}
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <a
-                href="/families"
-                className="bg-[#568f87] hover:bg-[#4a7a72] text-white py-2 px-3 rounded-lg font-medium text-xs text-center transition-colors duration-300 font-['Poppins']"
-              >
-                For Families
-              </a>
-              <a
-                href="/professionals"
-                className="bg-[#568f87] hover:bg-[#568f87] text-white py-2 px-3 rounded-lg font-medium text-xs text-center transition-colors duration-300 font-['Poppins']"
-              >
-                Join Our Team
-              </a>
+              {subscribeStatus === "success" ? (
+                <p className="text-[#F5BABB] text-sm font-['Poppins']">You're subscribed — thank you!</p>
+              ) : (
+                <form onSubmit={handleSubscribe} className="space-y-3">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 text-sm focus:outline-none focus:border-[#F5BABB] transition-colors duration-300"
+                  />
+                  <button
+                    type="submit"
+                    disabled={subscribeStatus === "submitting"}
+                    className="w-full bg-[#568f87] hover:bg-[#568f87] text-white py-2 rounded-lg font-medium text-sm transition-colors duration-300 font-['Poppins'] disabled:opacity-60"
+                  >
+                    {subscribeStatus === "submitting" ? "Subscribing..." : "Subscribe"}
+                  </button>
+                  {subscribeStatus === "error" && (
+                    <p className="text-red-300 text-xs font-['Poppins']">Something went wrong. Please try again.</p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </div>

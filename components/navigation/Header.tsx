@@ -21,7 +21,7 @@ const navigationItems = [
     label: "For Nannies",
     href: "/nannies",
     dropdown: [
-      { label: "Job Opportunities", href: "/nannies/jobs" },
+      { label: "Job Opportunities", href: "/jobs" },
       { label: "Visa Support", href: "/nannies/visa" },
       { label: "Training Programs", href: "/nannies/training" },
       { label: "Rural Placements", href: "/nannies/rural" },

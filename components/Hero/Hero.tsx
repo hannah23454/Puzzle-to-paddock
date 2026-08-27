@@ -1,4 +1,30 @@
 import React from "react";
+import Link from "next/link";
+import { Users, Heart, Stethoscope } from "lucide-react";
+
+const audiencePaths = [
+  {
+    href: "/families",
+    label: "Families",
+    sublabel: "Find care for your child",
+    icon: Users,
+    bg: "bg-[#064232]",
+  },
+  {
+    href: "/nannies",
+    label: "Nannies & Au Pairs",
+    sublabel: "Find a placement",
+    icon: Heart,
+    bg: "bg-[#115e59]",
+  },
+  {
+    href: "/ndis",
+    label: "NDIS & Allied Health",
+    sublabel: "Support & referrals",
+    icon: Stethoscope,
+    bg: "bg-[#be123c]",
+  },
+];
 
 export const Hero = () => {
   return (
@@ -65,7 +91,7 @@ export const Hero = () => {
       <section
         className="hero-section relative w-full min-h-[90vh] lg:min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(rgba(6, 67, 50, 0.15), rgba(86, 143, 135, 0.3)), url('https://assets.caresies.io/articles/2061/conversions/JiWgcx5NRZ7ayo3fA2S3-webp-featured.webp')`,
+          backgroundImage: `linear-gradient(rgba(6, 67, 50, 0.52), rgba(6, 67, 50, 0.62)), url('/images/pexels-6219955.jpg')`,
           backgroundColor: "#568f87",
         }}
       >
@@ -93,18 +119,18 @@ export const Hero = () => {
                   
                   <div className="relative z-20">
                     <div className="inline-block w-full">
-                      <span className="text-sm sm:text-base lg:text-sm font-semibold text-emerald-600 tracking-widest uppercase mb-3 sm:mb-4 block animate-fade-in-up">
-                        Premium Au Pair Adventure
+                      <span className="inline-block bg-white/85 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm sm:text-base lg:text-sm font-semibold text-[#064232] tracking-widest uppercase mb-3 sm:mb-4 animate-fade-in-up">
+                        Trusted Care, Australia-Wide
                       </span>
-                      <h1 className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl leading-tight font-['Poppins'] mb-4 sm:mb-6">
-                        <span className="bg-gradient-to-r from-[#568F87] via-teal-600 to-emerald-700 bg-clip-text text-transparent animate-fade-in-up block drop-shadow-lg" style={{ animationDelay: "0.2s" }}>
-                          Your Epic
+                      <h1
+                        className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl leading-tight font-['Poppins'] mb-4 sm:mb-6 text-white"
+                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.95), 0 2px 8px rgba(0,0,0,0.85), 0 8px 24px rgba(0,0,0,0.6)" }}
+                      >
+                        <span className="animate-fade-in-up block" style={{ animationDelay: "0.2s" }}>
+                          Care, Matched
                         </span>
-                        <p className="bg-gradient-to-r from-[#064232] to-[#064232] bg-clip-text text-transparent animate-fade-in-up block drop-shadow-lg" style={{ animationDelay: "0.4s" }}>
-                          Au Pair Adventure
-                        </p>
-                        <span className="bg-gradient-to-r from-[#568F87] via-teal-600 to-emerald-700  bg-clip-text text-transparent animate-fade-in-up block mt-3 sm:mt-4 text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl drop-shadow-lg" style={{ animationDelay: "0.6s" }}>
-                          Awaits You!
+                        <span className="animate-fade-in-up block" style={{ animationDelay: "0.4s" }}>
+                          to Your Family
                         </span>
                       </h1>
                       <div className="mt-4 sm:mt-6 w-32 sm:w-40 h-2 sm:h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-[#568F87] rounded-full animate-slide-in mx-auto lg:mx-0" style={{ animationDelay: "0.8s" }} />
@@ -114,56 +140,40 @@ export const Hero = () => {
 
                 {/* Description */}
                 <div className="space-y-4 sm:space-y-6 animate-fade-in-up" style={{ animationDelay: "1s" }}>
-                  <div className="relative p-5 sm:p-6 lg:p-6 bg-white/70 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
+                  <div className="relative p-5 sm:p-6 lg:p-6 bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
                     <p className="relative z-10 font-normal text-slate-700 text-base sm:text-lg lg:text-xl leading-relaxed font-['Poppins']">
-                      Discover the perfect au pair match for your family. From <span className="font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">cultural exchange</span> to <span className="font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">childcare excellence</span>, we connect families with extraordinary au pairs who become part of your story.
+                      Puzzle to Paddock connects Australian families with <span className="font-bold text-[#064232]">nannies and au pairs</span>, and with <span className="font-bold text-rose-700">NDIS-registered allied health professionals</span> — tell us who you are to get started.
                     </p>
                   </div>
                 </div>
 
-                {/* Call to Action */}
-                <div className="relative p-6 sm:p-8 bg-white/25 backdrop-blur-md rounded-2xl sm:rounded-[3rem] border border-white/30 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 group">
-  <a
-    href="https://calendly.com/clo-puzzletopaddock"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full group relative inline-flex items-center justify-center px-8 py-4 sm:py-5 text-base sm:text-lg font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-[#568F87] rounded-full shadow-xl hover:shadow-emerald-300/50 transform hover:-translate-y-1 hover:scale-105 transition-all duration-400 font-['Poppins']"
-  >
-    <span className="flex items-center space-x-3">
-      <svg
-        className="w-5 h-5 sm:w-6 sm:h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-        />
-      </svg>
-      <span>Book 15min Quick Call</span>
-    </span>
-  </a>
-</div>
-
-
-                {/* Trust Indicators */}
-                <div className="flex flex-wrap justify-center lg:justify-start gap-6 sm:gap-8 pt-4 sm:pt-6 animate-fade-in-up" style={{ animationDelay: "1.4s" }}>
-                  <div className="text-center group cursor-pointer">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-lg">50+</div>
-                    <div className="text-xs sm:text-sm lg:text-base text-slate-600 font-medium font-['Poppins'] drop-shadow-sm">Countries</div>
-                  </div>
-                  <div className="text-center group cursor-pointer">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#568F87] to-[#064232] bg-clip-text text-transparent drop-shadow-lg">800+</div>
-                    <div className="text-xs sm:text-sm lg:text-base text-slate-600 font-medium font-['Poppins'] drop-shadow-sm">Au Pairs</div>
-                  </div>
-                  <div className="text-center group cursor-pointer">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-rose-500 to-[#F5BABB] bg-clip-text text-transparent drop-shadow-lg">98%</div>
-                    <div className="text-xs sm:text-sm lg:text-base text-slate-600 font-medium font-['Poppins'] drop-shadow-sm">Family Satisfaction</div>
-                  </div>
+                {/* Audience picker */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 animate-fade-in-up" style={{ animationDelay: "1.1s" }}>
+                  {audiencePaths.map(({ href, label, sublabel, icon: Icon, bg }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className={`group relative flex flex-col items-center text-center gap-2 p-4 sm:p-5 rounded-2xl ${bg} shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300`}
+                    >
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                      <span className="font-semibold text-white text-sm sm:text-base font-['Poppins']">{label}</span>
+                      <span className="text-white/95 text-xs sm:text-sm font-['Poppins']">{sublabel}</span>
+                    </Link>
+                  ))}
                 </div>
+
+                {/* Secondary CTA */}
+                <div className="animate-fade-in-up" style={{ animationDelay: "1.2s" }}>
+                  <a
+                    href="https://calendly.com/clo-puzzletopaddock"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-white font-semibold font-['Poppins'] underline underline-offset-4 decoration-white/70 hover:decoration-white transition-colors bg-[#064232]/55 backdrop-blur-sm rounded-full px-4 py-2"
+                  >
+                    Not sure? Book a 15-min call instead
+                  </a>
+                </div>
+
               </div>
 
             </div>

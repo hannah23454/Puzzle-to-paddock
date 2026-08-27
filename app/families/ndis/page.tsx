@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../../components/layout/FloatingCTA"
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
@@ -5,12 +6,18 @@ import Link from "next/link"
 import { Header } from "../../../components/navigation/Header"
 import { Footer } from "../../../components/Footer/Footer"
 
+export const metadata: Metadata = {
+  title: "NDIS Support for Families | Puzzle to Paddock",
+  description:
+    "Connect with NDIS-registered allied health and support professionals for your family — tailored support for children and participants across Australia.",
+}
+
 export default function NDISSupportPage() {
   const services = [
     {
       title: "Allied Health Professionals",
       description: "Qualified therapists providing specialized support for children with disabilities.",
-      image: "https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613317.jpg",
       features: [
         "Occupational Therapy",
         "Speech Pathology",
@@ -23,7 +30,7 @@ export default function NDISSupportPage() {
     {
       title: "Telehealth Services",
       description: "Remote therapy sessions providing flexible access to specialized care from home.",
-      image: "https://images.pexels.com/photos/4226219/pexels-photo-4226219.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-7296459.jpg",
       features: [
         "Online therapy sessions",
         "Flexible scheduling",
@@ -36,7 +43,7 @@ export default function NDISSupportPage() {
     {
       title: "In-Home Support",
       description: "Personalized care and assistance provided in the comfort of your own home.",
-      image: "https://images.pexels.com/photos/5063408/pexels-photo-5063408.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-5445219.jpg",
       features: [
         "Daily living skills",
         "Personal care assistance",
@@ -49,7 +56,7 @@ export default function NDISSupportPage() {
     {
       title: "Group Programs",
       description: "Structured group activities promoting social skills and community engagement.",
-      image: "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613089.jpg",
       features: [
         "Social skills groups",
         "Life skills workshops",
@@ -177,7 +184,7 @@ export default function NDISSupportPage() {
               </div>
               <div className="relative">
                 <img
-                  src="https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  src="/images/pexels-8613317.jpg"
                   alt="NDIS support services"
                   className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
                 />

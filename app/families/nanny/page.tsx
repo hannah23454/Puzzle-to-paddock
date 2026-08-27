@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { FloatingCTA } from "../../../components/layout/FloatingCTA"
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
@@ -5,13 +6,19 @@ import Link from "next/link"
 import { Header } from "../../../components/navigation/Header"
 import { Footer } from "../../../components/Footer/Footer"
 
+export const metadata: Metadata = {
+  title: "Nanny Services | Puzzle to Paddock",
+  description:
+    "Qualified, background-checked nannies for full-time, part-time, live-in, live-out and overnight childcare across Australia.",
+}
+
 export default function NannyServicesPage() {
   const nannyTypes = [
     {
       title: "Full-Time Live-In Nanny",
       schedule: "40-50 hours/week",
       description: "Professional live-in childcare with dedicated expertise and round-the-clock availability.",
-      image: "https://images.pexels.com/photos/4473775/pexels-photo-4473775.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-4473775.jpg",
       features: [
         "Professional childcare training",
         "Live-in accommodation",
@@ -25,7 +32,7 @@ export default function NannyServicesPage() {
       title: "Full-Time Live-Out Nanny",
       schedule: "40-50 hours/week",
       description: "Professional daily nanny service with flexibility to maintain their own residence.",
-      image: "https://images.pexels.com/photos/8613283/pexels-photo-8613283.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-8613089.jpg",
       features: [
         "Monday to Friday care",
         "Professional references",
@@ -39,7 +46,7 @@ export default function NannyServicesPage() {
       title: "Part-Time Nanny",
       schedule: "15-30 hours/week",
       description: "Flexible professional childcare for families needing specific day coverage.",
-      image: "https://images.pexels.com/photos/5063408/pexels-photo-5063408.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-5445219.jpg",
       features: [
         "Flexible scheduling",
         "After-school care",
@@ -53,7 +60,7 @@ export default function NannyServicesPage() {
       title: "Night Nanny",
       schedule: "10pm-6am",
       description: "Specialized overnight care for newborns and young children to ensure restful nights.",
-      image: "https://images.pexels.com/photos/7282006/pexels-photo-7282006.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      image: "/images/pexels-4964214.jpg",
       features: [
         "Newborn specialist",
         "Sleep training expertise",
@@ -160,7 +167,7 @@ export default function NannyServicesPage() {
               </div>
               <div className="relative">
                 <img
-                  src="https://images.pexels.com/photos/4473775/pexels-photo-4473775.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  src="/images/pexels-4473775.jpg"
                   alt="Professional nanny with children"
                   className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
                 />
@@ -267,7 +274,7 @@ export default function NannyServicesPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <img
-                  src="https://images.pexels.com/photos/8613317/pexels-photo-8613317.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+                  src="/images/pexels-8613317.jpg"
                   alt="NDIS specialized care"
                   className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
                 />
