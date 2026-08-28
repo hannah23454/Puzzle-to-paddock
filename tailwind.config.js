@@ -41,6 +41,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        folder: {
+          back: "hsl(var(--folder-back))",
+          front: "hsl(var(--folder-front))",
+          tab: "hsl(var(--folder-tab))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

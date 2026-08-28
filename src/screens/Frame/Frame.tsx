@@ -1,6 +1,7 @@
 import { AboutUsSection } from "./sections/AboutUsSection/AboutUsSection"
 import { DiscussionSection } from "./sections/DiscussionSection/DiscussionSection"
 import { FeaturesSection } from "./sections/FeaturesSection/FeaturesSection"
+import { ServicesSection } from "./sections/ServicesSection/ServicesSection"
 import { TestimonialsSection } from "./sections/TestimonialsSection/TestimonialsSection"
 import { Hero } from "@/components/Hero/Hero"
 import { Footer } from "@/components/Footer/Footer"
@@ -16,6 +17,7 @@ export const Frame = (): JSX.Element => {
         <div className="space-y-12 sm:space-y-16 lg:space-y-20">
           <AboutUsSection />
           <FeaturesSection />
+          <ServicesSection />
           <TestimonialsSection />
           <DiscussionSection />
         </div>
