@@ -1,220 +1,358 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Heart } from 'lucide-react';
+import * as React from "react";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cn } from "@/lib/utils";
 
-export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  const [email, setEmail] = useState("");
-  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubscribeStatus("submitting");
+// -------------------------------------------------------------------------
+// THEME-ADAPTIVE INLINE STYLES
+// -------------------------------------------------------------------------
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
-    try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+.cinematic-footer-wrapper {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
 
-      if (!response.ok) throw new Error("Subscription failed");
+  --pill-bg-1: color-mix(in oklch, hsl(var(--foreground)) 3%, transparent);
+  --pill-bg-2: color-mix(in oklch, hsl(var(--foreground)) 1%, transparent);
+  --pill-shadow: color-mix(in oklch, hsl(var(--background)) 50%, transparent);
+  --pill-highlight: color-mix(in oklch, hsl(var(--foreground)) 10%, transparent);
+  --pill-inset-shadow: color-mix(in oklch, hsl(var(--background)) 80%, transparent);
+  --pill-border: color-mix(in oklch, hsl(var(--foreground)) 8%, transparent);
 
-      setSubscribeStatus("success");
-      setEmail("");
-    } catch {
-      setSubscribeStatus("error");
-    }
+  --pill-bg-1-hover: color-mix(in oklch, hsl(var(--foreground)) 8%, transparent);
+  --pill-bg-2-hover: color-mix(in oklch, hsl(var(--foreground)) 2%, transparent);
+  --pill-border-hover: color-mix(in oklch, hsl(var(--foreground)) 20%, transparent);
+  --pill-shadow-hover: color-mix(in oklch, hsl(var(--background)) 70%, transparent);
+  --pill-highlight-hover: color-mix(in oklch, hsl(var(--foreground)) 20%, transparent);
+}
+
+@keyframes footer-breathe {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+@keyframes footer-scroll-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-footer-breathe {
+  animation: footer-breathe 8s ease-in-out infinite alternate;
+}
+
+.animate-footer-scroll-marquee {
+  animation: footer-scroll-marquee 40s linear infinite;
+}
+
+.footer-bg-grid {
+  background-size: 60px 60px;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, hsl(var(--foreground)) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, hsl(var(--foreground)) 3%, transparent) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+}
+
+.footer-aurora {
+  /* Brand deep green + dusty pink — this project's --primary/--secondary tokens are
+     unused shadcn grayscale defaults (0 0% 9% / 0 0% 96.1%), not the real brand colors,
+     so we use the actual brand hexes here to match every other component on the site. */
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in oklch, #064232 35%, transparent) 0%,
+    color-mix(in oklch, #f5babb 35%, transparent) 40%,
+    transparent 70%
+  );
+}
+
+.footer-glass-pill {
+  background: linear-gradient(145deg, var(--pill-bg-1) 0%, var(--pill-bg-2) 100%);
+  box-shadow:
+      0 10px 30px -10px var(--pill-shadow),
+      inset 0 1px 1px var(--pill-highlight),
+      inset 0 -1px 2px var(--pill-inset-shadow);
+  border: 1px solid var(--pill-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-glass-pill:hover {
+  background: linear-gradient(145deg, var(--pill-bg-1-hover) 0%, var(--pill-bg-2-hover) 100%);
+  border-color: var(--pill-border-hover);
+  box-shadow:
+      0 20px 40px -10px var(--pill-shadow-hover),
+      inset 0 1px 1px var(--pill-highlight-hover);
+  color: hsl(var(--foreground));
+}
+
+.footer-giant-bg-text {
+  font-size: 26vw;
+  line-height: 0.75;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklch, hsl(var(--foreground)) 5%, transparent);
+  background: linear-gradient(180deg, color-mix(in oklch, hsl(var(--foreground)) 10%, transparent) 0%, transparent 60%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.footer-text-glow {
+  background: linear-gradient(180deg, hsl(var(--foreground)) 0%, color-mix(in oklch, hsl(var(--foreground)) 40%, transparent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0px 0px 20px color-mix(in oklch, hsl(var(--foreground)) 15%, transparent));
+}
+`;
+
+// -------------------------------------------------------------------------
+// MAGNETIC BUTTON PRIMITIVE (Zero Dependency)
+// -------------------------------------------------------------------------
+type MagneticButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    as?: React.ElementType;
   };
 
-  const contactInfo = [
-    {
-      icon: <Phone className="w-4 h-4" />,
-      title: "Call Us",
-      content: "+61 2 3456 7890",
-      link: "tel:+61234567890"
-    },
-    {
-      icon: <Mail className="w-4 h-4" />,
-      title: "Email Us",
-      content: "hello@puzzletopaddock.com.au",
-      link: "mailto:hello@puzzletopaddock.com.au"
-    },
-    {
-      icon: <MapPin className="w-4 h-4" />,
-      title: "Location",
-      content: "Sydney, NSW",
-      link: null
-    }
-  ];
+const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
+  ({ className, children, as: Component = "button", ...props }, forwardedRef) => {
+    const localRef = useRef<HTMLElement>(null);
 
-  const quickLinks = [
-    { title: "Home", href: "/" },
-    { title: "About Us", href: "/about" },
-    { title: "For Families", href: "/families" },
-    { title: "For Nannies", href: "/nannies" },
-    { title: "Register Now", href: "/register" },
-    { title: "NDIS Services", href: "/ndis" },
-    { title: "Contact", href: "/contact" }
-  ];
+    useEffect(() => {
+      if (typeof window === "undefined") return;
+      const element = localRef.current;
+      if (!element) return;
 
-  const socialLinks = [
-    {
-      icon: <Facebook className="w-4 h-4" />,
-      href: "https://facebook.com/puzzletopaddock",
-      label: "Facebook"
-    },
-    {
-      icon: <Instagram className="w-4 h-4" />,
-      href: "https://instagram.com/puzzletopaddock",
-      label: "Instagram"
-    },
-    {
-      icon: <Linkedin className="w-4 h-4" />,
-      href: "https://linkedin.com/company/puzzletopaddock",
-      label: "LinkedIn"
-    }
-  ];
+      const ctx = gsap.context(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+          const rect = element.getBoundingClientRect();
+          const h = rect.width / 2;
+          const w = rect.height / 2;
+          const x = e.clientX - rect.left - h;
+          const y = e.clientY - rect.top - w;
+
+          gsap.to(element, {
+            x: x * 0.4,
+            y: y * 0.4,
+            rotationX: -y * 0.15,
+            rotationY: x * 0.15,
+            scale: 1.05,
+            ease: "power2.out",
+            duration: 0.4,
+          });
+        };
+
+        const handleMouseLeave = () => {
+          gsap.to(element, {
+            x: 0,
+            y: 0,
+            rotationX: 0,
+            rotationY: 0,
+            scale: 1,
+            ease: "elastic.out(1, 0.3)",
+            duration: 1.2,
+          });
+        };
+
+        element.addEventListener("mousemove", handleMouseMove as EventListener);
+        element.addEventListener("mouseleave", handleMouseLeave);
+
+        return () => {
+          element.removeEventListener("mousemove", handleMouseMove as EventListener);
+          element.removeEventListener("mouseleave", handleMouseLeave);
+        };
+      }, element);
+
+      return () => ctx.revert();
+    }, []);
+
+    return (
+      <Component
+        ref={(node: HTMLElement) => {
+          (localRef as React.MutableRefObject<HTMLElement | null>).current = node;
+          if (typeof forwardedRef === "function") forwardedRef(node);
+          else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
+        }}
+        className={cn("cursor-pointer", className)}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+MagneticButton.displayName = "MagneticButton";
+
+// -------------------------------------------------------------------------
+// MAIN COMPONENT
+// -------------------------------------------------------------------------
+const MarqueeItem = () => (
+  <div className="flex items-center space-x-12 px-6">
+    <span>Trusted Au Pair &amp; Nanny Placement</span> <span className="text-[#064232]/60">✦</span>
+    <span>NDIS-Registered Support</span> <span className="text-[#568f87]/60">✦</span>
+    <span>Rural &amp; Metro Coverage</span> <span className="text-[#064232]/60">✦</span>
+    <span>Vetted Professionals</span> <span className="text-[#568f87]/60">✦</span>
+    <span>Family-First Care</span> <span className="text-[#064232]/60">✦</span>
+  </div>
+);
+
+export const Footer = () => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const giantTextRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const linksRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!wrapperRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        giantTextRef.current,
+        { y: "10vh", scale: 0.8, opacity: 0 },
+        {
+          y: "0vh",
+          scale: 1,
+          opacity: 1,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        [headingRef.current, linksRef.current],
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 40%",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        }
+      );
+    }, wrapperRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <footer className="bg-[#064232] text-white">
-      {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <h3 className="text-xl font-bold text-white mb-3 font-['Poppins']">
-              Puzzle to Paddock
-            </h3>
-            <p className="text-[#FFF5F2]/80 text-sm leading-relaxed mb-4 font-['Nunito_Sans']">
-              Your trusted partner in finding the perfect childcare solution for Australian families.
-            </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-2">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.href}
+    <>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
+
+      <div
+        ref={wrapperRef}
+        className="relative h-screen w-full"
+        style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+      >
+        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-background text-foreground cinematic-footer-wrapper">
+
+          <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
+          <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+
+          <div
+            ref={giantTextRef}
+            className="footer-giant-bg-text absolute -bottom-[5vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none"
+          >
+            PUZZLE
+          </div>
+
+          {/* Value-prop marquee */}
+          <div className="absolute top-12 left-0 w-full overflow-hidden border-y border-border/50 bg-background/60 backdrop-blur-md py-4 z-10 -rotate-2 scale-110 shadow-2xl">
+            <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-muted-foreground uppercase">
+              <MarqueeItem />
+              <MarqueeItem />
+            </div>
+          </div>
+
+          {/* Main center content */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20 w-full max-w-5xl mx-auto">
+            <h2
+              ref={headingRef}
+              className="text-5xl md:text-8xl font-black footer-text-glow tracking-tighter mb-12 text-center"
+            >
+              Ready to find your match?
+            </h2>
+
+            <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
+              {/* Primary CTAs */}
+              <div className="flex flex-wrap justify-center gap-4 w-full">
+                <MagneticButton
+                  as="a"
+                  href="https://calendly.com/clo-puzzletopaddock"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 bg-[#568f87] hover:bg-[#F5BABB] rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
-                  aria-label={social.label}
+                  className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3"
                 >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-          </div>
+                  Book a 15-min Call
+                </MagneticButton>
 
-          {/* Contact & Quick Links Combined */}
-          <div className="lg:col-span-1">
-            <h4 className="font-semibold text-white mb-4 font-['Poppins']">Get in Touch</h4>
-            <div className="space-y-3 mb-6">
-              {contactInfo.map((info, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-[#568f87] rounded-md flex items-center justify-center flex-shrink-0">
-                    {info.icon}
-                  </div>
-                  {info.link ? (
-                    <a
-                      href={info.link}
-                      className="text-[#FFF5F2]/80 text-sm hover:text-[#F5BABB] transition-colors duration-300 font-['Nunito_Sans']"
-                    >
-                      {info.content}
-                    </a>
-                  ) : (
-                    <p className="text-[#FFF5F2]/80 text-sm font-['Nunito_Sans']">
-                      {info.content}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Quick Links */}
-            <h4 className="font-semibold text-white mb-3 font-['Poppins']">Quick Links</h4>
-            <div className="flex flex-wrap gap-4">
-              {quickLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-[#FFF5F2]/80 text-sm hover:text-[#F5BABB] transition-colors duration-300 font-['Nunito_Sans']"
+                <MagneticButton
+                  as={Link}
+                  href="/register"
+                  className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3"
                 >
-                  {link.title}
-                </a>
-              ))}
+                  Register Now
+                </MagneticButton>
+              </div>
+
+              {/* Secondary legal links */}
+              <div className="flex flex-wrap justify-center gap-3 md:gap-6 w-full mt-2">
+                <MagneticButton as={Link} href="/privacy" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                  Privacy Policy
+                </MagneticButton>
+                <MagneticButton as={Link} href="/terms" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                  Terms of Service
+                </MagneticButton>
+                <MagneticButton as={Link} href="/contact" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                  Support
+                </MagneticButton>
+              </div>
             </div>
           </div>
 
-          {/* Newsletter & CTA */}
-          <div className="lg:col-span-1">
-            <div className="bg-[#568f87]/20 rounded-xl p-4 border border-[#568f87]/30">
-              <h4 className="font-semibold text-white mb-2 font-['Poppins']">Stay Connected</h4>
-              <p className="text-[#FFF5F2]/80 text-sm mb-4 font-['Nunito_Sans']">
-                Get childcare tips and updates delivered to your inbox.
-              </p>
-              
-              {/* Email Input */}
-              {subscribeStatus === "success" ? (
-                <p className="text-[#F5BABB] text-sm font-['Poppins']">You're subscribed — thank you!</p>
-              ) : (
-                <form onSubmit={handleSubscribe} className="space-y-3">
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 text-sm focus:outline-none focus:border-[#F5BABB] transition-colors duration-300"
-                  />
-                  <button
-                    type="submit"
-                    disabled={subscribeStatus === "submitting"}
-                    className="w-full bg-[#568f87] hover:bg-[#568f87] text-white py-2 rounded-lg font-medium text-sm transition-colors duration-300 font-['Poppins'] disabled:opacity-60"
-                  >
-                    {subscribeStatus === "submitting" ? "Subscribing..." : "Subscribe"}
-                  </button>
-                  {subscribeStatus === "error" && (
-                    <p className="text-red-300 text-xs font-['Poppins']">Something went wrong. Please try again.</p>
-                  )}
-                </form>
-              )}
+          {/* Bottom bar */}
+          <div className="relative z-20 w-full pb-8 px-6 md:px-12 flex flex-row items-center justify-between gap-6">
+            <div className="text-muted-foreground text-[10px] md:text-xs font-semibold tracking-widest uppercase">
+              © {new Date().getFullYear()} Puzzle to Paddock. All rights reserved.
             </div>
+
+            <MagneticButton
+              as="button"
+              onClick={scrollToTop}
+              aria-label="Back to top"
+              className="w-12 h-12 rounded-full footer-glass-pill flex items-center justify-center text-muted-foreground hover:text-foreground group"
+            >
+              <svg className="w-5 h-5 transform group-hover:-translate-y-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+              </svg>
+            </MagneticButton>
           </div>
-        </div>
+        </footer>
       </div>
-
-      {/* Simplified Bottom Bar */}
-      <div className="border-t border-[#568f87]/30">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            
-            {/* Copyright */}
-            <div className="flex items-center gap-2">
-              <p className="text-[#FFF5F2]/80 text-sm font-['Nunito_Sans']">
-                © {currentYear} Puzzle to Paddock
-              </p>
-              <Heart className="w-3 h-3 text-[#F5BABB] fill-current" />
-            </div>
-
-            {/* Simple Legal Links */}
-            <div className="flex gap-4">
-              <a href="/privacy" className="text-[#FFF5F2]/80 text-sm hover:text-[#F5BABB] transition-colors duration-300 font-['Nunito_Sans']">
-                Privacy
-              </a>
-              <a href="/terms" className="text-[#FFF5F2]/80 text-sm hover:text-[#F5BABB] transition-colors duration-300 font-['Nunito_Sans']">
-                Terms
-              </a>
-              <a href="/contact" className="text-[#FFF5F2]/80 text-sm hover:text-[#F5BABB] transition-colors duration-300 font-['Nunito_Sans']">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    </>
   );
 };
