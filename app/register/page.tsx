@@ -5,29 +5,32 @@ import type React from "react"
 import { FloatingCTA } from "../../components/layout/FloatingCTA"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
-import { Input } from "../../components/ui/input"
-import { Textarea } from "../../components/ui/textarea"
 import Link from "next/link"
 import { useState } from "react"
 import { Users, Heart, Briefcase } from "lucide-react"
 import { Header } from "../../components/navigation/Header"
 import { Footer } from "../../components/Footer/Footer"
+import { RegistrationForm } from "../../components/register/RegistrationForm"
+import { type FormValues, type RegistrationType, getInitialValues } from "../../lib/registration-fields"
 
 export default function RegisterPage() {
-  const [selectedType, setSelectedType] = useState<string>("")
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    location: "",
-    experience: "",
-    message: "",
-  })
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
-  const [errorMessage, setErrorMessage] = useState("")
+  const [selectedType, setSelectedType] = useState<RegistrationType | "">("")
+  const [formValues, setFormValues] = useState<Record<RegistrationType, FormValues>>(() => ({
+    family: getInitialValues("family"),
+    nanny: getInitialValues("nanny"),
+    professional: getInitialValues("professional"),
+  }))
+  const [submitted, setSubmitted] = useState(false)
 
-  const registrationTypes = [
+  const selectType = (type: RegistrationType) => {
+    setSelectedType(type)
+    setSubmitted(false)
+  }
+
+  const updateValues = (type: RegistrationType) => (update: (prev: FormValues) => FormValues) =>
+    setFormValues((prev) => ({ ...prev, [type]: update(prev[type]) }))
+
+  const registrationTypes: { id: RegistrationType; title: string; description: string; icon: React.ReactNode; color: string }[] = [
     {
       id: "family",
       title: "Family Registration",
@@ -38,7 +41,7 @@ export default function RegisterPage() {
     {
       id: "nanny",
       title: "Nanny/Au Pair Registration",
-      description: "Seeking placement opportunities with Australian families",
+      description: "Looking for au pair or nanny roles with families in rural Australia",
       icon: <Heart className="w-8 h-8" />,
       color: "bg-[#568f87]",
     },
@@ -50,46 +53,6 @@ export default function RegisterPage() {
       color: "bg-[#f5babb]",
     },
   ]
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus("submitting")
-    setErrorMessage("")
-
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: selectedType, ...formData }),
-      })
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}))
-        throw new Error(data.error || "Something went wrong. Please try again.")
-      }
-
-      setStatus("success")
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        location: "",
-        experience: "",
-        message: "",
-      })
-    } catch (error) {
-      setStatus("error")
-      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.")
-    }
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
 
   return (
     <>
@@ -131,7 +94,7 @@ export default function RegisterPage() {
                       ? "border-[#064232] shadow-lg scale-105"
                       : "border-gray-200 hover:border-[#568f87] hover:shadow-md"
                   }`}
-                  onClick={() => setSelectedType(type.id)}
+                  onClick={() => selectType(type.id)}
                 >
                   <CardContent className="p-6 text-center">
                     <div
@@ -155,170 +118,23 @@ export default function RegisterPage() {
                   <h3 className="font-semibold text-2xl mb-6 font-['Poppins'] text-[#064232]">
                     {registrationTypes.find((t) => t.id === selectedType)?.title} Form
                   </h3>
-                  {status === "success" ? (
-                    <div className="text-center py-8">
+                  {submitted ? (
+                    <div className="text-center py-8" role="status">
                       <h4 className="font-semibold text-xl mb-2 font-['Poppins'] text-[#064232]">
-                        Thanks — we've got your registration!
+                        Thanks! We&apos;ve got your details.
                       </h4>
                       <p className="text-[#696983] font-['Poppins']">
-                        Our team will be in touch shortly. In the meantime, feel free to{" "}
-                        <Link href="/contact" className="text-[#064232] underline">
-                          book a call
-                        </Link>
-                        .
+                        Someone from the Puzzle to Paddock team will be in touch soon.
                       </p>
                     </div>
                   ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          First Name *
-                        </label>
-                        <Input
-                          name="firstName"
-                          value={formData.firstName}
-                          onChange={handleInputChange}
-                          required
-                          className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          Last Name *
-                        </label>
-                        <Input
-                          name="lastName"
-                          value={formData.lastName}
-                          onChange={handleInputChange}
-                          required
-                          className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          Email Address *
-                        </label>
-                        <Input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          Phone Number *
-                        </label>
-                        <Input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          required
-                          className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                        Location *
-                      </label>
-                      <Input
-                        name="location"
-                        value={formData.location}
-                        onChange={handleInputChange}
-                        placeholder="City, State"
-                        required
-                        className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                      />
-                    </div>
-
-                    {selectedType === "nanny" && (
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          Experience Level
-                        </label>
-                        <select
-                          name="experience"
-                          value={formData.experience}
-                          onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                          className="w-full rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232] p-3"
-                        >
-                          <option value="">Select experience level</option>
-                          <option value="beginner">Beginner (0-1 years)</option>
-                          <option value="intermediate">Intermediate (2-5 years)</option>
-                          <option value="experienced">Experienced (5+ years)</option>
-                        </select>
-                      </div>
-                    )}
-
-                    {selectedType === "professional" && (
-                      <div>
-                        <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                          Professional Specialty
-                        </label>
-                        <select
-                          name="experience"
-                          value={formData.experience}
-                          onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                          className="w-full rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232] p-3"
-                        >
-                          <option value="">Select your specialty</option>
-                          <option value="speech-therapy">Speech Therapy</option>
-                          <option value="occupational-therapy">Occupational Therapy</option>
-                          <option value="physiotherapy">Physiotherapy</option>
-                          <option value="psychology">Psychology</option>
-                          <option value="behavior-support">Behavior Support</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
-                    )}
-
-                    <div>
-                      <label className="block text-sm font-medium text-[#464646] mb-2 font-['Poppins']">
-                        Tell us more about your needs
-                      </label>
-                      <Textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        rows={4}
-                        placeholder="Share any specific requirements, preferences, or questions..."
-                        className="rounded-lg border-gray-300 focus:border-[#064232] focus:ring-[#064232]"
-                      />
-                    </div>
-
-                    {status === "error" && (
-                      <p className="text-red-600 text-sm font-['Poppins']" role="alert">
-                        {errorMessage}
-                      </p>
-                    )}
-
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Button
-                        type="submit"
-                        disabled={status === "submitting"}
-                        className="flex-1 bg-[#064232] hover:bg-[#064232]/90 text-white rounded-full py-3 text-lg font-semibold font-['Poppins'] disabled:opacity-60"
-                      >
-                        {status === "submitting" ? "Submitting..." : "Submit Registration"}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="flex-1 border-[#064232] text-[#064232] hover:bg-[#064232] hover:text-white rounded-full py-3 text-lg font-semibold font-['Poppins'] bg-transparent"
-                        asChild
-                      >
-                        <Link href="/contact">Book a Call Instead</Link>
-                      </Button>
-                    </div>
-                  </form>
+                    <RegistrationForm
+                      key={selectedType}
+                      type={selectedType}
+                      values={formValues[selectedType]}
+                      onValuesChange={updateValues(selectedType)}
+                      onSuccess={() => setSubmitted(true)}
+                    />
                   )}
                 </CardContent>
               </Card>
